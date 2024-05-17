@@ -24,6 +24,18 @@ plugins {
 
 description = 'Ballerina - MySQL Compiler Plugin'
 
+// For testing with local scan tool
+repositories {
+    // For the scan tool plugin dependency
+    maven {
+        url = 'https://maven.pkg.github.com/Xenowa/*'
+        credentials {
+            username System.getenv("packageUser")
+            password System.getenv("packagePAT")
+        }
+    }
+}
+
 dependencies {
     checkstyle project(':checkstyle')
     checkstyle "com.puppycrawl.tools:checkstyle:${puppycrawlCheckstyleVersion}"
@@ -31,6 +43,9 @@ dependencies {
     implementation group: 'org.ballerinalang', name: 'ballerina-lang', version: "${ballerinaLangVersion}"
     implementation group: 'org.ballerinalang', name: 'ballerina-tools-api', version: "${ballerinaLangVersion}"
     implementation group: 'org.ballerinalang', name: 'ballerina-parser', version: "${ballerinaLangVersion}"
+
+    // For including the scan tool interface dependencies
+    implementation group: 'io.ballerina.scan', name: 'scan-command', version: '0.1.0'
 }
 
 def excludePattern = '**/module-info.java'
